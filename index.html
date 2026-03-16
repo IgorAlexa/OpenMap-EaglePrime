@@ -1,78 +1,105 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>FoxWorld Map</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"/>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<title>EaglePrime Map</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
-html, body {
+
+html, body{
 height:100%;
 margin:0;
+background:#1a1a1a;
 }
 
-#map {
+#map{
 height:100%;
 }
 
-.floorControl {
+.floorUI{
 position:absolute;
-top:10px;
 left:10px;
+top:10px;
+z-index:1000;
 background:white;
 padding:10px;
-z-index:1000;
-border-radius:5px;
+border-radius:6px;
 font-family:Arial;
+box-shadow:0 0 10px rgba(0,0,0,0.4);
 }
+
+.floorUI button{
+width:40px;
+height:30px;
+font-size:16px;
+cursor:pointer;
+}
+
+.floorNumber{
+display:inline-block;
+width:40px;
+text-align:center;
+font-weight:bold;
+}
+
 </style>
+
 </head>
 
 <body>
 
 <div id="map"></div>
 
-<div class="floorControl">
+<div class="floorUI">
+
 <button onclick="floorUp()">▲</button>
-<span id="floor">7</span>
+
+<span class="floorNumber" id="floor">7</span>
+
 <button onclick="floorDown()">▼</button>
+
 </div>
 
-<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
 
-var currentFloor = 7;
-var maxFloor = 15;
-var minFloor = 0;
+var currentFloor = 7
+var maxFloor = 15
+var minFloor = 0
 
-var map = L.map('map', {
-crs: L.CRS.Simple,
-minZoom:-2
-});
+var map = L.map('map',{
+crs:L.CRS.Simple,
+minZoom:-4,
+maxZoom:2
+})
 
-var bounds = [[0,0],[2048,2048]];
+var bounds = [[0,0],[8192,8192]]
 
-var layer = L.imageOverlay("OpenMap/foxworld_" + currentFloor + ".png", bounds).addTo(map);
+var layer = L.imageOverlay("foxworld_"+currentFloor+".bmp", bounds).addTo(map)
 
-map.fitBounds(bounds);
+map.fitBounds(bounds)
 
-function updateFloor() {
+function updateFloor(){
 
-map.removeLayer(layer);
+map.removeLayer(layer)
 
-layer = L.imageOverlay("OpenMap/foxworld_" + currentFloor + ".png", bounds).addTo(map);
+layer = L.imageOverlay("foxworld_"+currentFloor+".bmp", bounds).addTo(map)
 
-document.getElementById("floor").innerText = currentFloor;
+document.getElementById("floor").innerText=currentFloor
 
 }
 
 function floorUp(){
 
 if(currentFloor < maxFloor){
-currentFloor++;
-updateFloor();
+currentFloor++
+updateFloor()
 }
 
 }
@@ -80,8 +107,8 @@ updateFloor();
 function floorDown(){
 
 if(currentFloor > minFloor){
-currentFloor--;
-updateFloor();
+currentFloor--
+updateFloor()
 }
 
 }
@@ -89,4 +116,5 @@ updateFloor();
 </script>
 
 </body>
+
 </html>
